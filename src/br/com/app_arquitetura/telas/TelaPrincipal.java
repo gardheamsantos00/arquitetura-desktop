@@ -4,46 +4,54 @@
  * and open the template in the editor.
  */
 package br.com.app_arquitetura.telas;
+
 import java.sql.*;
 import br.com.app_arquitetura.dal.Modulo_conexao;
 import javax.swing.JOptionPane;
-
 
 /**
  *
  * @author gardh
  */
 public class TelaPrincipal extends javax.swing.JFrame {
-    
+
     Connection cnx = null;
     PreparedStatement preStat = null;
-    ResultSet reSet= null;
-    
-    private void createUsuario(){
+    ResultSet reSet = null;
+
+    private void createUsuario() {
         String sql = "INSERT INTO tb_usuario(usuario) VALUES(?)";
         try {
             preStat = cnx.prepareStatement(sql);
             preStat.setString(1, txtUsu.getText());
-            preStat.executeUpdate();
-            
+            if (txtUsu.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "informe o nome do usuário");
+            } else {
+                int adicionado = preStat.executeUpdate();
+                if (adicionado > 0) {
+                    JOptionPane.showMessageDialog(null, "Usuario Adicionado!");
+                    txtUsu.setText(null);
+                }
+            }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
-    private void buscarTodosUsuarios(){
-        String sql = "select usuario from tb_usuario";
-        
+
+    private void buscarTodosUsuarios() {
+        String sql = "select * from tb_usuario";
+
         try {
             preStat = cnx.prepareStatement(sql);
             reSet = preStat.executeQuery();
             comboUsuario.setSelectedItem(reSet.getString(2));
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
+
     /**
      * Creates new form TelaPrincipal
      */
