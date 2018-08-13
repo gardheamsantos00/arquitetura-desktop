@@ -52,6 +52,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    
+    private void buscaRefinada(){
+        String sql = "";
+
+        try {
+            preStat = cnx.prepareStatement(sql);
+            reSet = preStat.executeQuery();
+            tabUsuario.setModel(DbUtils.resultSetToTableModel(reSet));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
 
     /**
      * Creates new form TelaPrincipal
